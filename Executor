@@ -1,0 +1,295 @@
+local UIBuilder = {}
+
+function UIBuilder.Build(ScreenGui)
+	-- Frame Utama
+	local MainFrame = Instance.new("Frame")
+	MainFrame.Name = "MainFrame"
+	MainFrame.Size = UDim2.new(0, 500, 0, 320)
+	MainFrame.Position = UDim2.new(0.5, -250, 0.5, -160)
+	MainFrame.BackgroundColor3 = Color3.fromRGB(24, 24, 28)
+	MainFrame.BorderSizePixel = 0
+	MainFrame.Parent = ScreenGui
+
+	local UICorner = Instance.new("UICorner")
+	UICorner.CornerRadius = UDim.new(0, 12)
+	UICorner.Parent = MainFrame
+
+	local UIStroke = Instance.new("UIStroke")
+	UIStroke.Color = Color3.fromRGB(0, 166, 115) -- Tema Hijau
+	UIStroke.Thickness = 1.5
+	UIStroke.Parent = MainFrame
+
+	-- Top Bar (Area Seret)
+	local TopBar = Instance.new("Frame")
+	TopBar.Name = "TopBar"
+	TopBar.Size = UDim2.new(1, 0, 0, 42)
+	TopBar.BackgroundColor3 = Color3.fromRGB(32, 32, 38)
+	TopBar.Parent = MainFrame
+	Instance.new("UICorner", TopBar).CornerRadius = UDim.new(0, 12)
+
+	local Title = Instance.new("TextLabel")
+	Title.Size = UDim2.new(1, -20, 1, 0)
+	Title.Position = UDim2.new(0, 15, 0, 0)
+	Title.BackgroundTransparency = 1
+	Title.Text = "PREMIUM SYSTEM EXECUTOR"
+	Title.TextColor3 = Color3.fromRGB(240, 240, 245)
+	Title.TextSize = 13
+	Title.Font = Enum.Font.GothamBold
+	Title.TextXAlignment = Enum.TextXAlignment.Left
+	Title.Parent = TopBar
+
+	-- Sidebar Navigasi Kiri
+	local SideBar = Instance.new("Frame")
+	SideBar.Name = "SideBar"
+	SideBar.Size = UDim2.new(0, 130, 1, -42)
+	SideBar.Position = UDim2.new(0, 0, 0, 42)
+	SideBar.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
+	SideBar.Parent = MainFrame
+	Instance.new("UICorner", SideBar).CornerRadius = UDim.new(0, 12)
+
+	-- Kontainer Halaman
+	local ContentArea = Instance.new("Frame")
+	ContentArea.Name = "ContentArea"
+	ContentArea.Size = UDim2.new(1, -145, 1, -57)
+	ContentArea.Position = UDim2.new(0, 138, 0, 50)
+	ContentArea.BackgroundTransparency = 1
+	ContentArea.Parent = MainFrame
+
+	-- Fungsi pembantu membuat tombol tab navigasi
+	local function CreateTabBtn(Nama, PosY)
+		local Btn = Instance.new("TextButton")
+		Btn.Size = UDim2.new(1, -16, 0, 35)
+		Btn.Position = UDim2.new(0, 8, 0, PosY)
+		Btn.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
+		Btn.Text = Nama
+		Btn.TextColor3 = Color3.fromRGB(140, 140, 150)
+		Btn.Font = Enum.Font.GothamBold
+		Btn.TextSize = 11
+		Btn.Parent = SideBar
+		Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
+		return Btn
+	end
+
+	local TabHomeBtn = CreateTabBtn("🏠 EXECUTOR", 15)
+	local TabSaveBtn = CreateTabBtn("💾 SAVED FILE", 55)
+	local TabSetBtn = CreateTabBtn("⚙️ UI SETTINGS", 95)
+
+	-- Fungsi pembantu membuat halaman konten
+	local function CreatePage(Nama)
+		local Page = Instance.new("Frame")
+		Page.Name = Nama
+		Page.Size = UDim2.new(1, 0, 1, 0)
+		Page.BackgroundTransparency = 1
+		Page.Visible = false
+		Page.Parent = ContentArea
+		return Page
+	end
+
+	local PageHome = CreatePage("PageHome")
+	local PageSave = CreatePage("PageSave")
+	local PageSettings = CreatePage("PageSettings")
+
+	-- ISI TAB 1: HOME EXECUTOR
+	local KotakKode = Instance.new("TextBox")
+	KotakKode.Name = "KotakKode"
+	KotakKode.Size = UDim2.new(1, 0, 1, -45)
+	KotakKode.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
+	KotakKode.Text = ""
+	KotakKode.PlaceholderText = "-- Tulis / paste kode skrip di sini..."
+	KotakKode.TextColor3 = Color3.fromRGB(230, 230, 235)
+	KotakKode.TextSize = 11
+	KotakKode.Font = Enum.Font.Code
+	KotakKode.TextXAlignment = Enum.TextXAlignment.Left
+	KotakKode.TextYAlignment = Enum.TextYAlignment.Top
+	KotakKode.MultiLine = true
+	KotakKode.ClearTextOnFocus = false
+	KotakKode.Parent = PageHome
+	Instance.new("UICorner", KotakKode).CornerRadius = UDim.new(0, 6)
+
+	local ExecuteBtn = Instance.new("TextButton")
+	ExecuteBtn.Name = "ExecuteBtn"
+	ExecuteBtn.Size = UDim2.new(1, 0, 0, 36)
+	ExecuteBtn.Position = UDim2.new(0, 0, 1, -36)
+	ExecuteBtn.BackgroundColor3 = Color3.fromRGB(0, 166, 115)
+	ExecuteBtn.Text = "RUN / EXECUTE SCRIPT"
+	ExecuteBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	ExecuteBtn.Font = Enum.Font.GothamBold
+	ExecuteBtn.TextSize = 11
+	ExecuteBtn.Parent = PageHome
+	Instance.new("UICorner", ExecuteBtn).CornerRadius = UDim.new(0, 6)
+
+	-- ISI TAB 2: SAVE MANAGEMENT
+	local SaveFileBtn = Instance.new("TextButton")
+	SaveFileBtn.Name = "SaveFileBtn"
+	SaveFileBtn.Size = UDim2.new(1, 0, 0, 45)
+	SaveFileBtn.BackgroundColor3 = Color3.fromRGB(0, 115, 230)
+	SaveFileBtn.Text = "💾 SIMPAN TEKS SEKARANG (PERMANEN)"
+	SaveFileBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	SaveFileBtn.Font = Enum.Font.GothamBold
+	SaveFileBtn.TextSize = 11
+	SaveFileBtn.Parent = PageSave
+	Instance.new("UICorner", SaveFileBtn).CornerRadius = UDim.new(0, 6)
+
+	local ClearTextBtn = Instance.new("TextButton")
+	ClearTextBtn.Name = "ClearTextBtn"
+	ClearTextBtn.Size = UDim2.new(1, 0, 0, 40)
+	ClearTextBtn.Position = UDim2.new(0, 0, 0, 55)
+	ClearTextBtn.BackgroundColor3 = Color3.fromRGB(210, 35, 35)
+	ClearTextBtn.Text = "🗑️ KOSONGKAN PAPAN TEKS UTAMA"
+	ClearTextBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	ClearTextBtn.Font = Enum.Font.GothamBold
+	ClearTextBtn.TextSize = 11
+	ClearTextBtn.Parent = PageSave
+	Instance.new("UICorner", ClearTextBtn).CornerRadius = UDim.new(0, 6)
+
+	-- ISI TAB 3: SETTINGS UI CUSTOMIZER
+	local function CreateColorOption(Nama, Color, PosY)
+		local Btn = Instance.new("TextButton")
+		Btn.Size = UDim2.new(1, 0, 0, 28)
+		Btn.Position = UDim2.new(0, 0, 0, PosY)
+		Btn.BackgroundColor3 = Color
+		Btn.Text = Nama
+		Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Btn.Font = Enum.Font.GothamBold
+		Btn.TextSize = 10
+		Btn.Parent = PageSettings
+		Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 4)
+		return Btn
+	end
+
+	local ColorGreen = CreateColorOption("Default Green", Color3.fromRGB(0, 166, 115), 0)
+	local ColorPurple = CreateColorOption("Cyber Purple", Color3.fromRGB(130, 50, 250), 33)
+	local ColorBlue = CreateColorOption("Midnight Blue", Color3.fromRGB(0, 115, 230), 66)
+	local ColorRed = CreateColorOption("Crimson Blood", Color3.fromRGB(210, 35, 35), 99)
+
+	return MainFrame, TopBar, SideBar, ContentArea, KotakKode, ExecuteBtn, SaveFileBtn, ClearTextBtn, TabHomeBtn, TabSaveBtn, TabSetBtn, PageHome, PageSave, PageSettings, ColorGreen, ColorPurple, ColorBlue, ColorRed, UIStroke
+end
+
+return UIBuilder
+local CoreExecution = {}
+local FILE_SKRIP = "Universal_Split_Saved_Script.txt"
+
+-- Fungsi Logika Menyimpan Berkas Permanen
+function CoreExecution.SimpanKeFolder(Teks)
+	local Berhasil = pcall(function()
+		if writefile then
+			writefile(FILE_SKRIP, Teks)
+		end
+	end)
+	return Berhasil
+end
+
+-- Fungsi Logika Membuka Kembali Data Berkas Lama
+function CoreExecution.AmbilDariFolder()
+	local TeksHasil = ""
+	pcall(function()
+		if readfile and isfile and isfile(FILE_SKRIP) then
+			TeksHasil = readfile(FILE_SKRIP)
+		end
+	end)
+	return TeksHasil
+end
+
+-- Fungsi Logika Inti Eksekusi Skrip 100% Berhasil
+function CoreExecution.JalankanSkripMutlak(TeksKodeMentah)
+	if TeksKodeMentah == "" then return false end
+	
+	-- 1. Auto-save otomatis sebelum dijalankan (Proteksi jika skrip target merusak game)
+	CoreExecution.SimpanKeFolder(TeksKodeMentah)
+	
+	-- 2. Pembersihan string dari karakter ilegal sisa copy-paste
+	local TeksKodeBersih = string.gsub(TeksKodeMentah, "[\128-\255]", "")
+	
+	-- 3. Eksekusi sistem menggunakan setfenv agar mewarisi hak akses game global penuh
+	local Sukses, PesanError = pcall(function()
+		local FungsiTerkompilasi = assert(loadstring(TeksKodeBersih))
+		setfenv(FungsiTerkompilasi, getfenv()) 
+		FungsiTerkompilasi()
+	end)
+	
+	if not Sukses then
+		warn("[-] Inti Eksekusi Gagal: " .. tostring(PesanError))
+	end
+	
+	return Sukses
+end
+
+return CoreExecution
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+
+-- Menghubungkan dan memanggil Bagian 1 dan Bagian 2
+local ScreenGui = script.Parent
+local UIBuilder = require(ScreenGui:WaitForChild("UIBuilder"))
+local CoreExecution = require(ScreenGui:WaitForChild("CoreExecution"))
+
+-- Memunculkan seluruh komponen visual hasil rakitan Bagian 1
+local MainFrame, TopBar, SideBar, ContentArea, KotakKode, ExecuteBtn, SaveFileBtn, ClearTextBtn, TabHomeBtn, TabSaveBtn, TabSetBtn, PageHome, PageSave, PageSettings, ColorGreen, ColorPurple, ColorBlue, ColorRed, UIStroke = UIBuilder.Build(ScreenGui)
+
+----------------------------------------------------------------------
+-- HUBUNGAN INTERAKSI KEPADA BAGIAN 2 (LOGIKA CORE UTAMA)
+----------------------------------------------------------------------
+-- Hubungan Tombol Execute Utama
+ExecuteBtn.MouseButton1Click:Connect(function()
+	CoreExecution.JalankanSkripMutlak(KotakKode.Text)
+end)
+
+-- Hubungan Tombol Save File Permanen
+SaveFileBtn.MouseButton1Click:Connect(function()
+	local Sukses = CoreExecution.SimpanKeFolder(KotakKode.Text)
+	if Sukses then
+		SaveFileBtn.Text = "BERKAS BERHASIL DISIMPAN! ✓"
+		task.wait(1.5)
+		SaveFileBtn.Text = "💾 SIMPAN TEKS SEKARANG (PERMANEN)"
+	end
+end)
+
+-- Hubungan Tombol Clear Text
+ClearTextBtn.MouseButton1Click:Connect(function() KotakKode.Text = "" end)
+
+-- Memulihkan Teks Secara Otomatis saat Baru Masuk Game menggunakan Logika Bagian 2
+KotakKode.Text = CoreExecution.AmbilDariFolder()
+
+----------------------------------------------------------------------
+-- INTERAKSI INTERAL FRONT-END (PERPINDAHAN TAB NAVIGATION & THEME)
+----------------------------------------------------------------------
+local function SwitchTab(TargetPage, TargetBtn)
+	PageHome.Visible = false; PageSave.Visible = false; PageSettings.Visible = false
+	TabHomeBtn.BackgroundColor3 = Color3.fromRGB(28, 28, 34); TabSaveBtn.BackgroundColor3 = Color3.fromRGB(28, 28, 34); TabSetBtn.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
+	TabHomeBtn.TextColor3 = Color3.fromRGB(140, 140, 150); TabSaveBtn.TextColor3 = Color3.fromRGB(140, 140, 150); TabSetBtn.TextColor3 = Color3.fromRGB(140, 140, 150)
+	
+	TargetPage.Visible = true
+	TargetBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 52)
+	TargetBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+end
+
+TabHomeBtn.MouseButton1Click:Connect(function() SwitchTab(PageHome, TabHomeBtn) end)
+TabSaveBtn.MouseButton1Click:Connect(function() SwitchTab(PageSave, TabSaveBtn) end)
+TabSetBtn.MouseButton1Click:Connect(function() SwitchTab(PageSettings, TabSetBtn) end)
+SwitchTab(PageHome, TabHomeBtn) -- Set Default awal halaman saat masuk game
+
+-- Modifikasi Warna Tema Visual
+local function UpdateColor(Warna)
+	TweenService:Create(ExecuteBtn, TweenInfo.new(0.2), {BackgroundColor3 = Warna}):Play()
+	TweenService:Create(UIStroke, TweenInfo.new(0.2), {Color = Warna}):Play()
+end
+
+ColorGreen.MouseButton1Click:Connect(function() UpdateColor(Color3.fromRGB(0, 166, 115)) end)
+ColorPurple.MouseButton1Click:Connect(function() UpdateColor(Color3.fromRGB(130, 50, 250)) end)
+ColorBlue.MouseButton1Click:Connect(function() UpdateColor(Color3.fromRGB(0, 115, 230)) end)
+ColorRed.MouseButton1Click:Connect(function() UpdateColor(Color3.fromRGB(210, 35, 35)) end)
+
+-- Animasi Sistem Seret / Drag Frame Menu (PC & HP Screen Touch)
+local Dragging, DragInput, DragStart, StartPosition
+TopBar.InputBegan:Connect(function(Input)
+	if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+		Dragging = true; DragStart = Input.Position; StartPosition = MainFrame.Position
+		Input.Changed:Connect(function() if Input.UserInputState == Enum.UserInputState.End then Dragging = false end end)
+	end
+end)
+UserInputService.InputChanged:Connect(function(Input)
+	if Dragging and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
+		local Delta = Input.Position - DragStart
+		MainFrame.Position = UDim2.new(StartPosition.X.Scale, StartPosition.X.Offset + Delta.X, StartPosition.Y.Scale, StartPosition.Y.Offset + Delta.Y)
+	end
+end)
